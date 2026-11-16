@@ -1,0 +1,25 @@
+# Python compiled bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Pytest & testing cache
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Environment and sensitive keys
+.env
+.env.local
+
+# Runtime generated outputs
+output/
+uploads/
+*.xlsx
+*.xlsm
+
+# Temporary scratch scripts
+analyze_workbook.py
+inspect_headers.py
+test_mapping_on_real.py
+verify_line_by_line.py

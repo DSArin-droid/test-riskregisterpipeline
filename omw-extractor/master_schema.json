@@ -1,0 +1,126 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MasterRiskRecord",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "sourceSheet",
+    "hazardIdentification",
+    "initialRiskEvaluation",
+    "riskTreatment",
+    "postResponseRiskEvaluation",
+    "commentsAndAudit"
+  ],
+  "properties": {
+    "sourceSheet": {
+      "type": "string",
+      "enum": [
+        "Top Hole Batch Campaign",
+        "C-1",
+        "C-2",
+        "C-3",
+        "Pilot Hole",
+        "7\" Liner Contingency",
+        "6\" Cont. Res. Sec.",
+        "Logging",
+        "P&A",
+        "Sidetrack"
+      ],
+      "description": "Name of the Excel worksheet from which the risk record was extracted."
+    },
+    "hazardIdentification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "riskNo",
+        "source",
+        "category",
+        "well",
+        "phase",
+        "riskTitle",
+        "cause",
+        "riskDescription",
+        "existingMitigatingMeasures"
+      ],
+      "properties": {
+        "riskNo": { "type": "string" },
+        "source": { "type": ["string", "null"] },
+        "category": { "type": ["string", "null"] },
+        "well": { "type": ["string", "null"] },
+        "phase": { "type": ["string", "null"] },
+        "riskTitle": { "type": ["string", "null"] },
+        "cause": { "type": ["string", "null"] },
+        "riskDescription": { "type": ["string", "null"] },
+        "existingMitigatingMeasures": { "type": ["string", "null"] }
+      }
+    },
+    "initialRiskEvaluation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "eventType",
+        "consequence",
+        "likelihood",
+        "rating"
+      ],
+      "properties": {
+        "eventType": { "type": ["string", "null"] },
+        "consequence": { "type": ["string", "null"] },
+        "likelihood": { "type": ["string", "null"] },
+        "rating": { "type": ["string", "null"] }
+      }
+    },
+    "riskTreatment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mitigationAction",
+        "actionDueDate",
+        "actionOwner",
+        "actionStatus"
+      ],
+      "properties": {
+        "mitigationAction": { "type": ["string", "null"] },
+        "actionDueDate": {
+          "type": ["string", "null"],
+          "format": "date"
+        },
+        "actionOwner": { "type": ["string", "null"] },
+        "actionStatus": { "type": ["string", "null"] }
+      }
+    },
+    "postResponseRiskEvaluation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "consequence",
+        "likelihood",
+        "rating"
+      ],
+      "properties": {
+        "consequence": { "type": ["string", "null"] },
+        "likelihood": { "type": ["string", "null"] },
+        "rating": { "type": ["string", "null"] }
+      }
+    },
+    "commentsAndAudit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "comments",
+        "lastUpdatedBy",
+        "lastUpdatedDate",
+        "pimsReference"
+      ],
+      "properties": {
+        "comments": { "type": ["string", "null"] },
+        "lastUpdatedBy": { "type": ["string", "null"] },
+        "lastUpdatedDate": {
+          "type": ["string", "null"],
+          "format": "date"
+        },
+        "pimsReference": { "type": ["string", "null"] }
+      }
+    }
+  }
+}
