@@ -109,3 +109,49 @@ def test_end_to_end_and_strict_json_schema_validation(sample_workbook_path):
     # Verify duplicate risk numbers are preserved
     risk_nos = [r["hazardIdentification"]["riskNo"] for r in records_data]
     assert risk_nos.count("L1") == 2
+
+
+def test_generic_headers_and_value_profiling(tmp_path):
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.title = "Rig Test"
+    ws.append(["Column1", "Column 2", "Column3", "Column4", "Risk Title", "Consequence3"])
+    ws.append([1, "PLAN", "All Wells", '37" Hole', "Deviated wellbore", "C3"])
+    ws.append([2, "PLAN", "All Wells", '37" Hole', "Soft seabed conditions", "C2"])
+    
+    file_path = tmp_path / "generic_headers_test.xlsx"
+    wb.save(file_path)
+    wb.close()
+
+    raw_data = extract_workbook(file_path)
+    sheet = raw_data["sheets"][0]
+    h_row, mapped_cols, unmapped = map_sheet_headers(sheet)
+    records = extract_sheet_records(sheet, h_row, mapped_cols)
+
+    assert len(records) == 2
+    r1 = records[0]
+    assert r1["hazardIdentification"]["riskNo"] == "1"
+    assert r1["hazardIdentification"]["source"] == "PLAN"
+    assert r1["hazardIdentification"]["well"] == "All Wells"
+    assert r1["hazardIdentification"]["phase"] == '37" Hole'
+    assert r1["hazardIdentification"]["riskTitle"] == "Deviated wellbore"
+    assert r1["initialRiskEvaluation"]["consequence"] == "C3"
+
+
+def test_persistent_layer_and_fuzzy_matching():
+    from header_mapper import get_persistent_mapping, match_header, save_persistent_mapping
+    # 1. Save a unique non-generic header
+    save_persistent_mapping("barrier description", "hazardIdentification", "existingMitigatingMeasures")
+    
+    # 2. Check exact lookup
+    sec, fld = get_persistent_mapping("barrier description")
+    assert sec == "hazardIdentification" and fld == "existingMitigatingMeasures"
+    
+    # 3. Check >= 80% fuzzy match with typo "barrier descripton" (~94% similarity)
+    sec_f, fld_f = match_header("barrier descripton")
+    assert sec_f == "hazardIdentification" and fld_f == "existingMitigatingMeasures"
+
+    # 4. Verify generic headers like 'Column 1' are NOT persisted
+    save_persistent_mapping("column 1", "hazardIdentification", "riskNo")
+    sec_g, fld_g = get_persistent_mapping("column 1")
+    assert sec_g is None and fld_g is None

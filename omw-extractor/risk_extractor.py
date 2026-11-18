@@ -1,19 +1,20 @@
 """Risk Extractor Module: Extracts risk records under mapped headers into Master JSON structure."""
 
 from datetime import date, datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Tuple
 
-VALID_SHEET_NAMES = [
-    "Top Hole Batch Campaign",
-    "C-1",
-    "C-2",
-    "C-3",
-    "Pilot Hole",
-    '7" Liner Contingency',
-    '6" Cont. Res. Sec.',
-    "Logging",
-    "P&A",
-    "Sidetrack",
+NON_RISK_TITLE_KEYWORDS = [
+    "instruction",
+    "guidance",
+    "read me",
+    "readme",
+    "how to",
+    "lookup",
+    "dropdown",
+    "legend",
+    "matrix lookup",
+    "version history",
+    "metadata",
 ]
 
 
@@ -33,19 +34,64 @@ def normalize_value(field_name: str, val: Any) -> Optional[str]:
     return str(val).strip()
 
 
-def is_risk_worksheet(sheet_name: str, mapped_columns: List[Dict[str, Any]], records_count: int) -> bool:
-    """Identify whether a sheet contains operational risk records."""
-    name_clean = sheet_name.strip()
-    if name_clean in VALID_SHEET_NAMES:
-        return True
+def classify_worksheet(
+    sheet_name: str, mapped_columns: List[Dict[str, Any]], records_count: int
+) -> Tuple[bool, str, Dict[str, Any]]:
+    """Dynamically classify a sheet based on Content Fingerprinting (zero hardcoding).
 
-    name_lower = name_clean.lower()
-    if any(k in name_lower for k in ["instruction", "guidance", "legend", "matrix", "config", "lookup"]):
-        return False
+    Returns:
+        (is_risk_sheet: bool, reason: str, metadata: dict)
+    """
+    name_lower = sheet_name.strip().lower()
 
+    # Rule 1: Exclude documentation, legend, and lookup sheets
+    for kw in NON_RISK_TITLE_KEYWORDS:
+        if kw in name_lower:
+            return (
+                False,
+                f"Excluded: Matched auxiliary/instruction keyword '{kw}' in sheet title",
+                {"keyword_matched": kw},
+            )
+
+    # Rule 2: Must contain substantive data rows
+    if records_count <= 0:
+        return (
+            False,
+            "Excluded: Contains 0 extracted risk records",
+            {"records_count": 0},
+        )
+
+    # Rule 3: Content Fingerprinting (Hazard Anchor + Action/Evaluation Anchor)
     mapped_fields = {c["field"] for c in mapped_columns if c["field"]}
-    has_core = bool({"riskNo", "riskTitle", "riskDescription", "cause"} & mapped_fields)
-    return has_core and records_count > 0
+    hazard_anchors = {"riskNo", "riskTitle", "riskDescription", "cause"} & mapped_fields
+    eval_action_anchors = {
+        "consequence", "likelihood", "rating", "mitigationAction", "existingMitigatingMeasures"
+    } & mapped_fields
+
+    if hazard_anchors and eval_action_anchors:
+        return (
+            True,
+            f"Classified as Risk Sheet: Found Hazard anchors {sorted(hazard_anchors)} and Evaluation/Action anchors {sorted(eval_action_anchors)} with {records_count} data records",
+            {
+                "hazard_anchors": sorted(hazard_anchors),
+                "eval_action_anchors": sorted(eval_action_anchors),
+                "records_count": records_count,
+            },
+        )
+
+    return (
+        False,
+        "Excluded: Does not meet dual-anchor risk table threshold (missing core hazard or evaluation columns)",
+        {
+            "hazard_anchors": sorted(hazard_anchors),
+            "eval_action_anchors": sorted(eval_action_anchors),
+        },
+    )
+
+
+def is_risk_worksheet(sheet_name: str, mapped_columns: List[Dict[str, Any]], records_count: int) -> bool:
+    """Helper returning boolean whether sheet is a risk sheet."""
+    return classify_worksheet(sheet_name, mapped_columns, records_count)[0]
 
 
 def extract_sheet_records(

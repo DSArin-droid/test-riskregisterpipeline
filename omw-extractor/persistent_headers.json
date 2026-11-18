@@ -1,0 +1,202 @@
+{
+  "risk no": [
+    "hazardIdentification",
+    "riskNo"
+  ],
+  "risk title": [
+    "hazardIdentification",
+    "riskTitle"
+  ],
+  "risk description": [
+    "hazardIdentification",
+    "riskDescription"
+  ],
+  "mitigation action": [
+    "riskTreatment",
+    "mitigationAction"
+  ],
+  "action owner": [
+    "riskTreatment",
+    "actionOwner"
+  ],
+  "risk number": [
+    "hazardIdentification",
+    "riskNo"
+  ],
+  "guidance notes for risk assessment": [
+    "commentsAndAudit",
+    "comments"
+  ],
+  "barrier description": [
+    "hazardIdentification",
+    "existingMitigatingMeasures"
+  ],
+  "risk identification": [
+    "hazardIdentification",
+    "riskNo"
+  ],
+  "comments / audit": [
+    "commentsAndAudit",
+    "comments"
+  ],
+  "source / risk assessment": [
+    "hazardIdentification",
+    "source"
+  ],
+  "well": [
+    "hazardIdentification",
+    "well"
+  ],
+  "phase": [
+    "hazardIdentification",
+    "phase"
+  ],
+  "cause": [
+    "hazardIdentification",
+    "cause"
+  ],
+  "event type": [
+    "initialRiskEvaluation",
+    "eventType"
+  ],
+  "action due date": [
+    "riskTreatment",
+    "actionDueDate"
+  ],
+  "action status": [
+    "riskTreatment",
+    "actionStatus"
+  ],
+  "comments": [
+    "commentsAndAudit",
+    "comments"
+  ],
+  "pims ref": [
+    "commentsAndAudit",
+    "pimsReference"
+  ],
+  "category": [
+    "hazardIdentification",
+    "category"
+  ],
+  "exposure may cause serious injury or fatality": [
+    "hazardIdentification",
+    "cause"
+  ],
+  "verify barrier status and conduct bop function tests": [
+    "riskTreatment",
+    "actionStatus"
+  ],
+  "risk description consequence": [
+    "hazardIdentification",
+    "riskDescription"
+  ],
+  "existing mitigating measures": [
+    "hazardIdentification",
+    "existingMitigatingMeasures"
+  ],
+  "mitigation action / contingency": [
+    "riskTreatment",
+    "mitigationAction"
+  ],
+  "omw risk register - 7\" liner contingency": [
+    "riskTreatment",
+    "mitigationAction"
+  ],
+  "mitigating measures in place": [
+    "hazardIdentification",
+    "existingMitigatingMeasures"
+  ],
+  "existing controls / measures": [
+    "hazardIdentification",
+    "existingMitigatingMeasures"
+  ],
+  "pims reference": [
+    "commentsAndAudit",
+    "pimsReference"
+  ],
+  "masterriskrecord with sourcesheet and five nested sections.": [
+    "hazardIdentification",
+    "source"
+  ],
+  "source": [
+    "hazardIdentification",
+    "source"
+  ],
+  "last updated by": [
+    "commentsAndAudit",
+    "lastUpdatedBy"
+  ],
+  "further actions": [
+    "riskTreatment",
+    "mitigationAction"
+  ],
+  "target date": [
+    "riskTreatment",
+    "actionDueDate"
+  ],
+  "action progress": [
+    "riskTreatment",
+    "mitigationAction"
+  ],
+  "risk source": [
+    "hazardIdentification",
+    "source"
+  ],
+  "modified by": [
+    "commentsAndAudit",
+    "lastUpdatedBy"
+  ],
+  "potential cause": [
+    "hazardIdentification",
+    "cause"
+  ],
+  "type of event": [
+    "initialRiskEvaluation",
+    "eventType"
+  ],
+  "hazard category": [
+    "hazardIdentification",
+    "category"
+  ],
+  "operation phase": [
+    "hazardIdentification",
+    "phase"
+  ],
+  "current controls": [
+    "hazardIdentification",
+    "existingMitigatingMeasures"
+  ],
+  "risk id": [
+    "hazardIdentification",
+    "riskNo"
+  ],
+  "well name": [
+    "hazardIdentification",
+    "well"
+  ],
+  "notes": [
+    "commentsAndAudit",
+    "comments"
+  ],
+  "responsible person": [
+    "hazardIdentification",
+    "well"
+  ],
+  "hazard / risk": [
+    "hazardIdentification",
+    "well"
+  ],
+  "risk details": [
+    "hazardIdentification",
+    "source"
+  ],
+  "top hole batch campaign": [
+    "hazardIdentification",
+    "phase"
+  ],
+  "hazardidentification.well": [
+    "hazardIdentification",
+    "well"
+  ]
+}

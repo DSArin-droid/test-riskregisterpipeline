@@ -64,6 +64,8 @@ def run_pipeline(excel_path: Path) -> None:
     report_data = {
         "workbook": excel_path.name,
         "totalWorksheets": len(sheet_summaries),
+        "riskWorksheetsCount": sum(1 for s in sheet_summaries if s["isRiskSheet"]),
+        "auxiliaryWorksheetsCount": sum(1 for s in sheet_summaries if not s["isRiskSheet"]),
         "totalRiskRecords": len(all_risk_records),
         "sheets": sheet_summaries,
     }
